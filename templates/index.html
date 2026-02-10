@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medicine Recommendation System</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --accent: #0ea5e9;
+        --border: #e5e7eb;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .container {
+        max-width: 960px;
+        margin: 40px auto;
+        padding: 0 16px;
+      }
+      .header {
+        margin-bottom: 24px;
+      }
+      .header h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+      .header p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      }
+      .form-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      input[type="text"] {
+        flex: 1 1 420px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+      }
+      button {
+        padding: 12px 18px;
+        border: none;
+        border-radius: 8px;
+        background: var(--accent);
+        color: #ffffff;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .message {
+        margin-top: 12px;
+        color: #b91c1c;
+        font-size: 14px;
+      }
+      .results {
+        margin-top: 24px;
+      }
+      .section-title {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      ul {
+        padding-left: 18px;
+        margin: 6px 0 0;
+      }
+      .muted {
+        color: var(--muted);
+        margin: 6px 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Medicine Recommendation System</h1>
+        <p>Enter symptoms separated by commas (example: fever, headache).</p>
+      </div>
+
+      <div class="card">
+        <form method="POST" action="/predict">
+          <div class="form-row">
+            <input
+              type="text"
+              name="symptoms"
+              placeholder="e.g., cough, fatigue, nausea"
+              required
+            />
+            <button type="submit">Predict</button>
+          </div>
+        </form>
+
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+      </div>
+
+      {% if predicted_disease %}
+      <div class="card results">
+        <h2 class="section-title">Prediction</h2>
+        <p><strong>Disease:</strong> {{ predicted_disease }}</p>
+        <p class="muted">{{ dis_des }}</p>
+
+        {% if my_precautions %}
+        <h3 class="section-title">Precautions</h3>
+        <ul>
+          {% for item in my_precautions %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if medications %}
+        <h3 class="section-title">Medications</h3>
+        <ul>
+          {% for item in medications %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if workout %}
+        <h3 class="section-title">Workout</h3>
+        <ul>
+          {% for item in workout %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if my_diet %}
+        <h3 class="section-title">Diet</h3>
+        <ul>
+          {% for item in my_diet %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
